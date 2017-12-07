@@ -1,11 +1,13 @@
-function div=dividePicture(matrix, columnSize, n)
+function div=dividePicture(matrix, columnSize, pictureNum)
 % GIVEN: a picture matrix, and split number
 % RETURNS: a cell array, that each cell is a picture with n columns
 % This function 
-    div = cell(1, columnSize / n);
-    
+
     %columnSizeAfterSplit x
-    x = columnSize / n;
-    for i = 1 : n
+    x = columnSize / pictureNum;
+    div = cell(1, x);
+    
+    
+    for i = 1 : pictureNum
         div{i} = matrix(:, (x * (i - 1) + 1) : x * i);
     end

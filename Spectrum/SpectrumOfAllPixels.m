@@ -7,10 +7,11 @@
 matrix = rand(200, 10000, 'double');
 
 % Get the row size, and column size of matrix
-[m, n] = size(matrix);
+[rowSize, columnSize] = size(matrix);
 
 % Divide the whole picture into 50 pictures
-picture = dividePicture(matrix, n, 50);
+pictureNum = 50;
+picture = dividePicture(matrix, columnSize, pictureNum);
 
 % New a cell to store the spectrum of every point
 spectrumTest = cell(200, 200);
@@ -22,7 +23,7 @@ fid=fopen('spectrumOfEveryPoint.txt', 'wt');
 for i = 1 : 200
     for j = 1 : 200
         % Get the spectrum of given point
-        spectrumTest{i, j} = getSpectrumOfGivenPoint(picture, i, j);
+        spectrumTest{i, j} = getSpectrumOfGivenPoint(picture, pictureNum, i, j);
         fprintf(fid, "Spectrum of point (%d, %d)\n", i, j);
         fprintf(fid, '%g ', spectrumTest{i, j});
         fprintf(fid, "\n");
