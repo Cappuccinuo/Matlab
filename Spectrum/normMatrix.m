@@ -1,7 +1,6 @@
 function n = normMatrix(matrix)
 % GIVEN : a matrix
-% RETURNS : a matrix after normalized
-    sumOfMatrix = sum(matrix);
-    n = matrix./sumOfMatrix;
+% RETURNS : a matrix after normalized using mapminmax
+    n = mapminmax(matrix, 0, 1);
 end
 

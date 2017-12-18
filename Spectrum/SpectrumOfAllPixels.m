@@ -17,12 +17,13 @@ picture = dividePicture(matrix, columnSize, pictureNum);
 spectrumTest = cell(200, 200);
 
 % Output the result to a txt
-fid=fopen('spectrumOfEveryPoint.txt', 'wt');
+fid=fopen('meanSpectrum.txt', 'wt');
 % Define the threshold to filter
 threshold = 0.5;
 % Count the number of point been filtered
 count = 1;
-filterSpectrum = cell(1, 40000);
+filterNum = 0;
+filterSpectrum = cell(40000, 1);
 
 % There are 200 * 200 pixels
 for i = 1 : 200
@@ -30,19 +31,25 @@ for i = 1 : 200
         % Get the spectrum of given point
         spectrumTest{i, j} = getSpectrumOfGivenPoint(picture, pictureNum, i, j);
         if spectrumTest{i, j}(13) > threshold
-            fprintf(fid, 'Spectrum of point (%d, %d): ', i, j);
+            %fprintf(fid, 'Spectrum of point (%d, %d): ', i, j);
             %fprintf(fid, 'Value on 13 is %d\n', spectrumTest{i, j}(13));
             %fprintf(fid, '%g \n', dotQuot(spectrumTest{i, j}));
             %fprintf(fid, 'Matrix after normalization is \n');
-            filterSpectrum{1, count} = normMatrix(dotQuot(spectrumTest{i, j}));
-            count = count + 1;
-            fprintf(fid, '%g ', normMatrix(dotQuot(spectrumTest{i, j})));
-            fprintf(fid, "\n");
+            filterSpectrum{count, 1} = normMatrix(dotQuot(spectrumTest{i, j}));
+            filterNum = filterNum + 1;
+            %fprintf(fid, '%g ', normMatrix(dotQuot(spectrumTest{i, j})));
+            %fprintf(fid, "\n");
+        else
+            filterSpectrum{count, 1} = zeros(1, 50);
         end
+        count = count + 1;
     end
 end
-% Delete the [] in the cell
-filterSpectrum = filterSpectrum(~cellfun(@isempty, filterSpectrum));
+
+meanSpectrum = getMeanSpectrum(filterSpectrum);
+fprintf(fid, 'The mean spectrum is: \n');
+fprintf(fid, '%g ', meanSpectrum);
+plot(meanSpectrum);
 fclose(fid);
 
 
